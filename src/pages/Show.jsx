@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getShowById } from '../api/tvmaze';
-const Show = () => {
-  const { showId } = useParams();
+const useShowbyId = showId => {
   const [showData, setShowData] = useState(null);
   const [showError, setShowError] = useState(null);
   useEffect(() => {
@@ -16,6 +15,12 @@ const Show = () => {
     }
     fetchData();
   }, [showId]);
+  return { showData, showError };
+};
+const Show = () => {
+  const { showId } = useParams();
+  const { showData, showError } = useShowbyId(showId);
+
   if (showError) {
     return <div>We have an error:{showError.message}</div>;
   }
